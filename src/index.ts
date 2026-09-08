@@ -186,7 +186,7 @@ app.delete('/api/v1/items/:id', requireStaff, itemController.deleteItem);
 
 // Admin routes
 app.use('/api/v1/admin', authenticateToken);
-app.get('/api/v1/admin/users', adminController.getAllUsers);
+app.get('/api/v1/admin/users', requireAdmin, adminController.getAllUsers);
 app.get('/api/v1/admin/stats', adminController.getSystemStats);
 app.delete('/api/v1/admin/users/:id', adminController.deleteUser);
 
