@@ -105,17 +105,8 @@ export const requireRole = (requiredRole: string) => {
       return;
     }
 
-    // VULN_API5_FUNC_AUTH: Trust client-controlled role header
-    let userRole = req.user.role;
-    
-    if (config.vulnerabilities.api5FuncAuth) {
-      // Vulnerable: Trust X-Role header from client
-      const clientRole = req.headers['x-role'] as string;
-      if (clientRole) {
-        userRole = clientRole as any;
-        securityLogger.functionAuthBypass(req.user.id, req.path, clientRole);
-      }
-    }
+    // Role must come exclusively from the authenticated JWT payload
+    const userRole = req.user.role;
 
     // Check if user has required role
     if (userRole !== requiredRole && userRole !== 'ADMIN') {
